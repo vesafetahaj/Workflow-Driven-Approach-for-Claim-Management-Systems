@@ -1,0 +1,5 @@
+.navbar {
+  z-index: 1; /* Ensure the navbar is above the video */
+  font-family: 'Poppins', sans-serif;
+  height:80px;
+}
