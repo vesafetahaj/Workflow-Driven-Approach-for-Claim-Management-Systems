@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "roles")
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+public class Role extends BaseEntity{
     private String description;
 }

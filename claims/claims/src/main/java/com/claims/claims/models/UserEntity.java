@@ -3,6 +3,7 @@ package com.claims.claims.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.util.Date;
 
@@ -13,10 +14,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+@Where(clause = "is_deleted=false")
+public class UserEntity extends BaseEntity{
     private String firstName;
     private String lastName;
     @Column(unique = true,nullable = false)
@@ -25,6 +24,8 @@ public class UserEntity {
     private String phone;
     private String country;
     private Date birthDate;
+    @Column(nullable = false)
+    private boolean enabled = true;
     private String address;
     private String city;
     private String postal_code;

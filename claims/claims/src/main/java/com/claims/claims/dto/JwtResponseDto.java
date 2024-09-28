@@ -1,12 +1,12 @@
-package com.claims.claims.security;
-
+package com.claims.claims.dto;
 
 import lombok.*;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class TokenPair {
+@NoArgsConstructor
+@Builder
+public class JwtResponseDto {
     private String accessToken;
     private String refreshToken;
 }
