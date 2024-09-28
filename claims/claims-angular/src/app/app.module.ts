@@ -5,13 +5,21 @@ import {AppComponent} from "./app.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
-import {ProcessService} from "../services/process.service";
+import {RegisterComponent} from "./components/register/register.component";
+import {LoginComponent} from "./components/login/login.component";
 
 
-const routes : Routes = [];
+
+const routes : Routes = [
+  {path: 'login',component:LoginComponent},
+  {path: 'register', component:RegisterComponent},
+
+]
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +29,7 @@ const routes : Routes = [];
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ProcessService],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
