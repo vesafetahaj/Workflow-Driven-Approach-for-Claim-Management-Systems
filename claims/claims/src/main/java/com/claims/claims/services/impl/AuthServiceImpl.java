@@ -64,6 +64,14 @@ public class AuthServiceImpl implements AuthService {
 
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getEmail());
+        user.setFirstName(registerDto.getFirstName());
+        user.setLastName(registerDto.getLastName());
+        user.setCountry(registerDto.getCountry());
+        user.setCity(registerDto.getCity());
+        user.setAddress(registerDto.getAddress());
+        user.setPhone(registerDto.getPhone());
+        user.setPostal_code(registerDto.getPostal_code());
+
 
         String hashedPassword = passwordEncoder.encode(registerDto.getPassword());
         user.setPassword(hashedPassword);
@@ -72,7 +80,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new IllegalStateException("Default role not found"));
         user.setRole(role);
         UserEntity savedUser = userRepository.save(user);
-        String esId = UUID.randomUUID().toString();
+        System.out.println("User saved: " + savedUser);
     }
 
     @Override

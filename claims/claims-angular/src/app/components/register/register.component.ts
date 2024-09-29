@@ -13,14 +13,27 @@ export class RegisterComponent {
   registerForm: FormGroup;
   registerDto: RegisterDto = {
     email: '',
-    password: ''
+    password: '',
+    firstName: '',
+    lastName: '',
+    country: '',
+    city: '',
+    postal_code: '',
+    address: '',
+    phone: ''
   };
 
   confirmPassword: string = '';
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router) {
     this.registerForm = this.formBuilder.group({
-      clubName: ['', Validators.required],
+      firstName: ['', Validators.required], // Added
+      lastName: ['', Validators.required],  // Added
+      country: ['', Validators.required],    // Added
+      city: ['', Validators.required],       // Added
+      postal_code: ['', Validators.required],// Added
+      address: ['', Validators.required],    // Added
+      phone: ['', Validators.required],      // Added
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
@@ -42,6 +55,13 @@ export class RegisterComponent {
 
     this.registerDto.email = this.registerForm.get('email')?.value;
     this.registerDto.password = this.registerForm.get('password')?.value;
+    this.registerDto.firstName = this.registerForm.get('firstName')?.value;
+    this.registerDto.lastName = this.registerForm.get('lastName')?.value;
+    this.registerDto.country = this.registerForm.get('country')?.value;
+    this.registerDto.city = this.registerForm.get('city')?.value;
+    this.registerDto.address = this.registerForm.get('address')?.value;
+    this.registerDto.postal_code = this.registerForm.get('postal_code')?.value;
+    this.registerDto.phone = this.registerForm.get('phone')?.value;
 
     this.authService.register(this.registerDto).subscribe(
       response => {
