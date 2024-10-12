@@ -1,31 +1,58 @@
 <!-- src/app/accident-claim/accident-claim.component.html -->
-<div style="margin-top: 100px; padding: 50px">
-  <h2>Accident Claim Form</h2>
-  <form (ngSubmit)="submitClaim()">
-    <div>
-      <label for="claimantName">Claimant Name:</label>
-      <input type="text" id="claimantName" [(ngModel)]="claimData.claimantName" name="claimantName" required />
-    </div>
-    <div>
-      <label for="claimantContact">Claimant Contact:</label>
-      <input type="text" id="claimantContact" [(ngModel)]="claimData.claimantContact" name="claimantContact" required />
-    </div>
-    <div>
-      <label for="accidentDetails">Accident Details:</label>
-      <textarea id="accidentDetails" [(ngModel)]="claimData.accidentDetails" name="accidentDetails" required></textarea>
-    </div>
-    <div>
-      <label for="accidentDate">Accident Date:</label>
-      <input type="date" id="accidentDate" [(ngModel)]="claimData.accidentDate" name="accidentDate" required />
-    </div>
-    <div>
-      <label for="insurancePolicyNumber">Insurance Policy Number:</label>
-      <input type="text" id="insurancePolicyNumber" [(ngModel)]="claimData.insurancePolicyNumber" name="insurancePolicyNumber" required />
-    </div>
-    <div>
-      <label for="claimAmount">Claim Amount:</label>
-      <input type="number" id="claimAmount" [(ngModel)]="claimData.claimAmount" name="claimAmount" required min="0" />
-    </div>
-    <button type="submit">Submit Claim</button>
-  </form>
+<div class="video-background">
+  <video autoplay muted loop preload="auto">
+    <source src="assets/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
+
+<section style="padding-top: 20px; height: 800px; margin-top: 50px;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-6">
+        <div class="card rounded-4 shadow-sm text-black" style="border: none;">
+          <div class="card-body p-5">
+            <div class="text-center">
+              <h4 class="mt-1 mb-3" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Claim Form</h4>
+              <p style="color: #4e3b31;">Please fill out the form below to submit your claim.</p>
+              <br>
+            </div>
+            <form (ngSubmit)="submitClaim()" #claimForm="ngForm">
+              <div class="form-outline mb-4">
+                <label for="claimantName" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Name</label>
+                <input type="text" id="claimantName" [(ngModel)]="claimData.claimantName" name="claimantName" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="claimantContact" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Contact</label>
+                <input type="text" id="claimantContact" [(ngModel)]="claimData.claimantContact" name="claimantContact" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="accidentDetails" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Details</label>
+                <textarea id="accidentDetails" [(ngModel)]="claimData.accidentDetails" name="accidentDetails" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;"></textarea>
+              </div>
+              <div class="form-outline mb-4">
+                <label for="accidentDate" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Date</label>
+                <input type="date" id="accidentDate" [(ngModel)]="claimData.accidentDate" name="accidentDate" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="insurancePolicyNumber" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Insurance Policy Number</label>
+                <input type="text" id="insurancePolicyNumber" [(ngModel)]="claimData.insurancePolicyNumber" name="insurancePolicyNumber" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+              </div>
+              <div class="form-outline mb-4">
+                <label for="claimAmount" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claim Amount</label>
+                <input type="number" id="claimAmount" [(ngModel)]="claimData.claimAmount" name="claimAmount" class="form-control" required min="0" style="border: 2px solid #4e3b31; border-radius: 20px;" />
+              </div>
+              <div class="d-grid gap-2 col-8 mx-auto">
+                <button class="btn" type="submit" style="background-color: #4e3b31; color: white; border-radius: 20px; font-size: 16px;">Submit Claim</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
