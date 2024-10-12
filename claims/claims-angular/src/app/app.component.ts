@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthService} from "./services/auth.service";
 
 
 @Component({
@@ -7,7 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(public authService: AuthService) {}
 
-
+  logout(): void {
+    this.authService.logout();
+  }
 
 }

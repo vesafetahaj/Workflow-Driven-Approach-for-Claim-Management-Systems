@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/camunda/**").permitAll()
                 .requestMatchers("/api/claims/submit").permitAll()
                 .requestMatchers("/api/claims/save").permitAll()
+                .requestMatchers("/api/claims/check-errors").permitAll()
                 .requestMatchers(HttpMethod.GET, "/error").permitAll()
                 .requestMatchers(HttpMethod.GET, "/camunda-welcome").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/accident-claims").permitAll()

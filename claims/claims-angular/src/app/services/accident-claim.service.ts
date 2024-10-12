@@ -1,7 +1,8 @@
   // src/app/accident-claim.service.ts
   import { Injectable } from '@angular/core';
-  import { HttpClient } from '@angular/common/http';
-  import { Observable } from 'rxjs';
+  import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+  import {Observable, throwError} from 'rxjs';
+  import {catchError} from "rxjs/operators";
 
   interface AccidentClaim {
     claimantName: string;
@@ -25,5 +26,12 @@
 
     submitClaim(claim: any): Observable<any> {
       return this.http.post(`${this.apiUrl}/submit`, claim);
+    }
+    checkValidationErrors(processInstanceId: string): Observable<string> {
+      return this.http.post<string>(`${this.apiUrl}/check-errors`, { processInstanceId });
+    }
+
+    private handleError(error: HttpErrorResponse) {
+      return throwError(() => new Error(error.message));
     }
   }

@@ -16,6 +16,7 @@ export class AuthService {
   private readonly accessTokenExpiryKey = 'accessTokenExpiry';
   currentUserEmail = new BehaviorSubject<string | null>(null);
   currentClubId = new BehaviorSubject<number | null>(null);
+    currentUserRole = new BehaviorSubject<string | null>(null);
 
   constructor(private httpClient: HttpClient, private router: Router) {
     // Check authentication status on application startup
@@ -51,14 +52,17 @@ export class AuthService {
     this.router.navigateByUrl("/login");
   }
 
-  setTokens(accessToken: string, refreshToken: string): void {
-    localStorage.setItem(this.accessTokenKey, accessToken);
-    localStorage.setItem(this.refreshTokenKey, refreshToken);
-    console.log('Tokens set');
-    this.isAuthenticated.next(true);
-    const userEmail = this.getEmailFromToken();
-    this.setUserEmail(userEmail);
-  }
+    setTokens(accessToken: string, refreshToken: string): void {
+        localStorage.setItem(this.accessTokenKey, accessToken);
+        localStorage.setItem(this.refreshTokenKey, refreshToken);
+        console.log('Tokens set');
+        this.isAuthenticated.next(true);
+        const userEmail = this.getEmailFromToken();
+        const userRole = this.getRoleFromToken(); // Get role from token
+        this.setUserEmail(userEmail);
+        this.setUserRole(userRole); // Set user role
+    }
+
 
   getAccessToken(): string | null {
     return localStorage.getItem(this.accessTokenKey);
@@ -72,6 +76,9 @@ export class AuthService {
     this.clearAccessToken();
     this.clearRefreshToken();
   }
+    setUserRole(role: string | null): void {
+        this.currentUserRole.next(role);
+    }
 
   private clearAccessToken(): void {
     localStorage.removeItem(this.accessTokenKey);
