@@ -1,0 +1,31 @@
+<!-- src/app/accident-claim/accident-claim.component.html -->
+<div>
+  <h2>Accident Claim Form</h2>
+  <form (ngSubmit)="submitClaim()">
+    <div>
+      <label for="claimantName">Claimant Name:</label>
+      <input type="text" id="claimantName" [(ngModel)]="claimData.claimantName" name="claimantName" required />
+    </div>
+    <div>
+      <label for="claimantContact">Claimant Contact:</label>
+      <input type="text" id="claimantContact" [(ngModel)]="claimData.claimantContact" name="claimantContact" required />
+    </div>
+    <div>
+      <label for="accidentDetails">Accident Details:</label>
+      <textarea id="accidentDetails" [(ngModel)]="claimData.accidentDetails" name="accidentDetails" required></textarea>
+    </div>
+    <div>
+      <label for="accidentDate">Accident Date:</label>
+      <input type="date" id="accidentDate" [(ngModel)]="claimData.accidentDate" name="accidentDate" required />
+    </div>
+    <div>
+      <label for="insurancePolicyNumber">Insurance Policy Number:</label>
+      <input type="text" id="insurancePolicyNumber" [(ngModel)]="claimData.insurancePolicyNumber" name="insurancePolicyNumber" required />
+    </div>
+    <div>
+      <label for="claimAmount">Claim Amount:</label>
+      <input type="number" id="claimAmount" [(ngModel)]="claimData.claimAmount" name="claimAmount" required min="0" />
+    </div>
+    <button type="submit">Submit Claim</button>
+  </form>
+</div>
