@@ -53,11 +53,13 @@ public class DataValidationDelegate implements JavaDelegate {
             errorMessages.append("Claim amount must be a positive number. ");
         }
 
-        // Log errors if any
+
         if (!isValid) {
             System.out.println("Validation errors: " + errorMessages.toString());
+        } else {
+            // Print success message if validation is successful
+            System.out.println("All validation steps are good.");
         }
-
         // Set validation result and error messages
         execution.setVariable("isValidData", isValid);
         execution.setVariable("validationErrors", errorMessages.toString());

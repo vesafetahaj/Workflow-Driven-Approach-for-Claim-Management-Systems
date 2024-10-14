@@ -5,7 +5,6 @@ import com.claims.claims.models.enums.ClaimStatus;
 import com.claims.claims.repository.AccidentClaimRepository;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.variable.VariableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,13 @@ public class AccidentClaimService {
     }
 
     public String submitClaim(AccidentClaim accidentClaim) {
+        // Validate accident date
+        if (accidentClaim.getAccidentDate().isAfter(LocalDate.now())) {
+            // Print a specific message for validation failure
+            System.out.println("ValidationSteps not passed, aborted.");
+            return "ValidationSteps not passed, aborted."; // Return the message instead of throwing an exception
+        }
+
         // Prepare variables to start the process instance
         Map<String, Object> variables = new HashMap<>();
 
@@ -45,14 +51,18 @@ public class AccidentClaimService {
         // Start the process instance with the provided variables
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("claimProcess", variables);
 
-        // Check if the process has ended
-        if (processInstance.isEnded()) {
-            return "Claim submitted successfully! Process has ended.";
+        // Check the validation result
+        Boolean isValidData = (Boolean) runtimeService.getVariable(processInstance.getId(), "isValidData");
+        if (isValidData != null && !isValidData) {
+            // Print a specific message for validation failure
+            System.out.println("ValidationSteps not passed, aborted.");
+            return "ValidationSteps not passed, aborted."; // Return the message instead of throwing an exception
         }
 
-        // Return success message with the process instance ID
-        return "Claim submitted successfully! Process Instance ID: " + processInstance.getId();
+        // Return the process instance ID
+        return "Claim submitted successfully! Process ID: " + processInstance.getId();
     }
+
 
     public AccidentClaim findClaimByUniqueIdentifier(String insurancePolicyNumber) {
         return accidentClaimRepository.findByInsurancePolicyNumber(insurancePolicyNumber);

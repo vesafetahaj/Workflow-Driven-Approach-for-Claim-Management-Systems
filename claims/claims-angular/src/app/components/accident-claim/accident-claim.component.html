@@ -1,4 +1,3 @@
-<!-- src/app/accident-claim/accident-claim.component.html -->
 <div class="video-background">
   <video autoplay muted loop preload="auto">
     <source src="assets/video.mp4" type="video/mp4">
@@ -14,36 +13,166 @@
           <div class="card-body p-5">
             <div class="text-center">
               <h4 class="mt-1 mb-3" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Claim Form</h4>
+              <hr/>
               <p style="color: #4e3b31;">Please fill out the form below to submit your claim.</p>
               <br>
             </div>
-            <form (ngSubmit)="submitClaim()" #claimForm="ngForm">
-              <div class="form-outline mb-4">
-                <label for="claimantName" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Name</label>
-                <input type="text" id="claimantName" [(ngModel)]="claimData.claimantName" name="claimantName" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+
+            <!-- Display Validation Errors -->
+            <div *ngIf="errorMessages.length > 0" class="alert alert-danger" role="alert">
+              <ul class="mb-0">
+                <li *ngFor="let error of errorMessages">{{ error }}</li>
+              </ul>
+            </div>
+
+            <!-- Display Success Message -->
+            <div *ngIf="successMessage && errorMessages.length === 0"
+                 class="alert alert-success"
+                 role="alert"
+                 @fadeInOut>
+              {{ successMessage }}
+            </div>
+
+
+            <div *ngIf="isSubmitting" class="text-center mb-3">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Submitting...</span>
               </div>
+              <p>Submitting your claim...</p>
+            </div>
+
+            <form (ngSubmit)="submitClaim()" #claimForm="ngForm" novalidate>
+              <!-- Claimant Name -->
               <div class="form-outline mb-4">
-                <label for="claimantContact" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Contact</label>
-                <input type="text" id="claimantContact" [(ngModel)]="claimData.claimantContact" name="claimantContact" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+                <label for="claimantName" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Name</label>
+                <input
+                  type="text"
+                  id="claimantName"
+                  [(ngModel)]="claimData.claimantName"
+                  name="claimantName"
+                  class="form-control"
+                  required
+                  #claimantName="ngModel"
+                  [ngClass]="{'is-invalid': claimantName.invalid && (claimantName.dirty || claimantName.touched)}"
+                  aria-describedby="claimantNameHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;"
+                />
+                <div *ngIf="claimantName.invalid && (claimantName.dirty || claimantName.touched)" class="invalid-feedback">
+                  Claimant name is required.
+                </div>
               </div>
+
+              <!-- Claimant Contact -->
               <div class="form-outline mb-4">
-                <label for="accidentDetails" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Details</label>
-                <textarea id="accidentDetails" [(ngModel)]="claimData.accidentDetails" name="accidentDetails" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;"></textarea>
+                <label for="claimantContact" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claimant Contact</label>
+                <input
+                  type="text"
+                  id="claimantContact"
+                  [(ngModel)]="claimData.claimantContact"
+                  name="claimantContact"
+                  class="form-control"
+                  required
+                  pattern="^\+?[0-9]{10,15}$"
+                  #claimantContact="ngModel"
+                  [ngClass]="{'is-invalid': claimantContact.invalid && (claimantContact.dirty || claimantContact.touched)}"
+                  aria-describedby="claimantContactHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;"
+                />
+                <div *ngIf="claimantContact.invalid && (claimantContact.dirty || claimantContact.touched)" class="invalid-feedback">
+                  Enter a valid phone number (10-15 digits, optional +).
+                </div>
               </div>
+
+              <!-- Accident Details -->
               <div class="form-outline mb-4">
-                <label for="accidentDate" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Date</label>
-                <input type="date" id="accidentDate" [(ngModel)]="claimData.accidentDate" name="accidentDate" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+                <label for="accidentDetails" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Details</label>
+                <textarea
+                  id="accidentDetails"
+                  [(ngModel)]="claimData.accidentDetails"
+                  name="accidentDetails"
+                  class="form-control"
+                  required
+                  #accidentDetails="ngModel"
+                  [ngClass]="{'is-invalid': accidentDetails.invalid && (accidentDetails.dirty || accidentDetails.touched)}"
+                  aria-describedby="accidentDetailsHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;">
+                </textarea>
+                <div *ngIf="accidentDetails.invalid && (accidentDetails.dirty || accidentDetails.touched)" class="invalid-feedback">
+                  Accident details are required.
+                </div>
               </div>
+
+              <!-- Accident Date -->
               <div class="form-outline mb-4">
-                <label for="insurancePolicyNumber" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Insurance Policy Number</label>
-                <input type="text" id="insurancePolicyNumber" [(ngModel)]="claimData.insurancePolicyNumber" name="insurancePolicyNumber" class="form-control" required style="border: 2px solid #4e3b31; border-radius: 20px;" />
+                <label for="accidentDate" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Accident Date</label>
+                <input
+                  type="date"
+                  id="accidentDate"
+                  [(ngModel)]="claimData.accidentDate"
+                  name="accidentDate"
+                  class="form-control"
+                  required
+                  max="{{ todayDate }}"
+                  #accidentDate="ngModel"
+                  [ngClass]="{'is-invalid': accidentDate.invalid && (accidentDate.dirty || accidentDate.touched)}"
+                  aria-describedby="accidentDateHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;"
+                />
+                <div *ngIf="accidentDate.invalid && (accidentDate.dirty || accidentDate.touched)" class="invalid-feedback">
+                  Enter a valid accident date (cannot be in the future).
+                </div>
               </div>
+
+              <!-- Insurance Policy Number -->
               <div class="form-outline mb-4">
-                <label for="claimAmount" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claim Amount</label>
-                <input type="number" id="claimAmount" [(ngModel)]="claimData.claimAmount" name="claimAmount" class="form-control" required min="0" style="border: 2px solid #4e3b31; border-radius: 20px;" />
+                <label for="insurancePolicyNumber" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Insurance Policy Number</label>
+                <input
+                  type="text"
+                  id="insurancePolicyNumber"
+                  [(ngModel)]="claimData.insurancePolicyNumber"
+                  name="insurancePolicyNumber"
+                  class="form-control"
+                  required
+                  #insurancePolicyNumber="ngModel"
+                  [ngClass]="{'is-invalid': insurancePolicyNumber.invalid && (insurancePolicyNumber.dirty || insurancePolicyNumber.touched)}"
+                  aria-describedby="insurancePolicyNumberHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;"
+                />
+                <div *ngIf="insurancePolicyNumber.invalid && (insurancePolicyNumber.dirty || insurancePolicyNumber.touched)" class="invalid-feedback">
+                  Insurance policy number is required.
+                </div>
               </div>
+
+              <!-- Claim Amount -->
+              <div class="form-outline mb-4">
+                <label for="claimAmount" class="form-label" style="color: #4e3b31; font-family: 'Poppins', sans-serif;">Claim Amount</label>
+                <input
+                  type="number"
+                  id="claimAmount"
+                  [(ngModel)]="claimData.claimAmount"
+                  name="claimAmount"
+                  class="form-control"
+                  required
+                  min="0.01"
+                  #claimAmount="ngModel"
+                  [ngClass]="{'is-invalid': claimAmount.invalid && (claimAmount.dirty || claimAmount.touched)}"
+                  aria-describedby="claimAmountHelp"
+                  style="border: 2px solid #4e3b31; border-radius: 20px;"
+                />
+                <div *ngIf="claimAmount.invalid && (claimAmount.dirty || claimAmount.touched)" class="invalid-feedback">
+                  Claim amount must be a positive number.
+                </div>
+              </div>
+
+              <!-- Submit Button -->
               <div class="d-grid gap-2 col-8 mx-auto">
-                <button class="btn" type="submit" style="background-color: #4e3b31; color: white; border-radius: 20px; font-size: 16px;">Submit Claim</button>
+                <button
+                  class="btn"
+                  type="submit"
+                  [disabled]="claimForm.invalid || isSubmitting"
+                  style="background-color: #4e3b31; color: white; border-radius: 20px; font-size: 16px;">
+                  Submit Claim
+                </button>
               </div>
             </form>
           </div>
@@ -53,6 +182,7 @@
   </div>
 </section>
 
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">

@@ -22,6 +22,8 @@ public class TriggerHttpPostDelegate implements JavaDelegate {
         // Send the POST request
         AccidentClaim savedClaim = restTemplate.postForObject(url, accidentClaim, AccidentClaim.class);
 
+        System.out.println("Triggered HTTP request to save claim with ID: " + savedClaim.getId());
+
         execution.setVariable("savedClaimId", savedClaim.getId());
         // Set a variable to indicate that the claim has been saved
         execution.setVariable("savedClaim", savedClaim);

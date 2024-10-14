@@ -1,8 +1,9 @@
   // src/app/accident-claim.service.ts
   import { Injectable } from '@angular/core';
-  import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+  import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
   import {Observable, throwError} from 'rxjs';
   import {catchError} from "rxjs/operators";
+  import {Claim} from "../common/claim";
 
   interface AccidentClaim {
     claimantName: string;
@@ -20,18 +21,18 @@
     // submitAccidentClaim(claim: AccidentClaim): Observable<AccidentClaim> {
     //   return this.http.post<AccidentClaim>(this.baseUrl, claim);
     // }
-    private apiUrl = 'http://localhost:8080/api/claims';
-
+    private apiUrl = 'http://localhost:8080/api/claims/submit';
+    private getHeaders(): HttpHeaders {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+        'Content-Type': 'application/json'
+      });
+    }
     constructor(private http: HttpClient) { }
 
-    submitClaim(claim: any): Observable<any> {
-      return this.http.post(`${this.apiUrl}/submit`, claim);
-    }
-    checkValidationErrors(processInstanceId: string): Observable<string> {
-      return this.http.post<string>(`${this.apiUrl}/check-errors`, { processInstanceId });
+    submitClaim(claim: Claim): Observable<any> {
+      let headers = this.getHeaders();
+      return this.http.post<any>(this.apiUrl, claim, { headers });
     }
 
-    private handleError(error: HttpErrorResponse) {
-      return throwError(() => new Error(error.message));
-    }
   }

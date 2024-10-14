@@ -36,7 +36,7 @@ const routes : Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule, // Add this to your imports
+    BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
 

@@ -1,9 +1,8 @@
 package com.claims.claims.controller;
 
+import com.claims.claims.dto.ApiResponse;
 import com.claims.claims.models.AccidentClaim;
 import com.claims.claims.services.AccidentClaimService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +16,18 @@ public class ClaimController {
     private AccidentClaimService accidentClaimService; // Inject AccidentClaimService
 
     @PostMapping("/submit")
-    public ResponseEntity<String> submitClaim(@RequestBody AccidentClaim accidentClaim) {
+    public ResponseEntity<ApiResponse> submitClaim(@RequestBody AccidentClaim accidentClaim) {
         try {
+            // Start the claim process
             String responseMessage = accidentClaimService.submitClaim(accidentClaim);
-            return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
+            ApiResponse response = new ApiResponse(responseMessage, null);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            // Log the error and return the message to the client
-            e.printStackTrace(); // Log the stack trace for better debugging
-            return new ResponseEntity<>("Error submitting claim: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
-            // Handle any unexpected exceptions
             e.printStackTrace();
-            return new ResponseEntity<>("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponse("Validation error: " + e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ApiResponse("Unexpected error: " + e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -38,13 +37,12 @@ public class ClaimController {
             AccidentClaim savedClaim = accidentClaimService.saveAccidentClaim(accidentClaim);
             return new ResponseEntity<>(savedClaim, HttpStatus.CREATED);
         } catch (Exception e) {
-            // Handle any exceptions and return a proper error response
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PostMapping("/check-errors")
     public ResponseEntity<String> checkValidationErrors(@RequestParam String processInstanceId) {
         return accidentClaimService.checkValidationErrors(processInstanceId);
     }
-
 }
