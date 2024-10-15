@@ -41,8 +41,4 @@ public class ClaimController {
         }
     }
 
-    @PostMapping("/check-errors")
-    public ResponseEntity<String> checkValidationErrors(@RequestParam String processInstanceId) {
-        return accidentClaimService.checkValidationErrors(processInstanceId);
-    }
 }

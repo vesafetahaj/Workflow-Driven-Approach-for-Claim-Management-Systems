@@ -2,10 +2,8 @@ package com.claims.claims.delegate;
 
 import com.claims.claims.models.AccidentClaim;
 import com.claims.claims.models.enums.ClaimStatus;
-import com.claims.claims.services.AccidentClaimService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
