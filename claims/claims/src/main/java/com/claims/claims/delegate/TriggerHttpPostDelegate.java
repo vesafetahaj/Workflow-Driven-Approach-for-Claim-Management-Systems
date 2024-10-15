@@ -1,6 +1,5 @@
 package com.claims.claims.delegate;
 
-import com.claims.claims.dto.AccidentClaimDTO;
 import com.claims.claims.models.AccidentClaim;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
