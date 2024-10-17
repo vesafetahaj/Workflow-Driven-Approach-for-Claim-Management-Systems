@@ -51,13 +51,14 @@ public class AccidentClaimServiceImpl implements AccidentClaimService {
 
         // Start the process instance with the provided variables
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("claimProcess", variables);
+        String validationErrors = (String) runtimeService.getVariable(processInstance.getId(), "validationErrors");
 
         // Check the validation result
         Boolean isValidData = (Boolean) runtimeService.getVariable(processInstance.getId(), "isValidData");
         if (isValidData != null && !isValidData) {
             // Print a specific message for validation failure
             System.out.println("ValidationSteps not passed, aborted.");
-            return "ValidationSteps not passed, aborted."; // Return the message instead of throwing an exception
+            return "Validation failed: " + validationErrors;
         }
 
         // Return the process instance ID
