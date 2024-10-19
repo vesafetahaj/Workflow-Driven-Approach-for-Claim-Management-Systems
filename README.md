@@ -50,10 +50,16 @@ This repository contains a Claim Management System built using Spring Boot, Angu
 ## Views
 
 - Login Page:
-  ![image](https://github.com/user-attachments/assets/b16bdb5b-10b1-49ec-b478-77dc37537c89)
+ <br>
+<img width="1112" alt="login" src="https://github.com/user-attachments/assets/c9482ef6-c5da-4eb1-baea-df8b897cb1fa">
 
+<br>
 - Register Page:
-  ![image](https://github.com/user-attachments/assets/2f5c0f31-d89e-46db-b07f-a0993b70ca3a)
+  <br>
+  <img width="1101" alt="register" src="https://github.com/user-attachments/assets/86551084-8e53-4330-80ed-966b3d580aa7">
 
+<br>
 - Submit Claim Page:
-![image](https://github.com/user-attachments/assets/ab4b67d8-da6b-4f5a-9328-c0ee6893e5de)
+<br>
+<img width="1113" alt="submitclaim" src="https://github.com/user-attachments/assets/a2a0ed0b-5402-412d-b0de-f06af3082ea9">
+
