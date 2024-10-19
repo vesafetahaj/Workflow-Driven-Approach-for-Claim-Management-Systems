@@ -22,8 +22,8 @@ This repository contains a Claim Management System built using Spring Boot, Angu
 ### Installation
 
 1. **Clone the repository:**
-   git clone [https://github.com/vesafetahaj/Workflow-Driven-Approach-for-Claim-Management-Systems.git]
-   cd claim-management-system
+   - git clone [https://github.com/vesafetahaj/Workflow-Driven-Approach-for-Claim-Management-Systems.git]
+   - cd claim-management-system
 2. **Backend Setup:**
   - Navigate to the backend directory:
     cd backend
